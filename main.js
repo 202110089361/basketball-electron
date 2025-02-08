@@ -8,8 +8,10 @@ const cors = require('cors');
 // 启动 Express 服务器
 expressApp.use(cors());
 expressApp.use(express.json());
-expressApp.use('/api/matches', require('./backend/src/routes/matchRoutes'));
-expressApp.use('/api/players', require('./backend/src/routes/playerRoutes'));
+
+// TODO: 后续添加路由
+// expressApp.use('/api/matches', require('./backend/src/routes/matchRoutes'));
+// expressApp.use('/api/players', require('./backend/src/routes/playerRoutes'));
 
 const server = expressApp.listen(3000, () => {
   console.log('Express server running on port 3000');
