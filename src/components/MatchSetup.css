@@ -1,0 +1,57 @@
+.match-setup-form {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.form-section {
+  margin-bottom: 32px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+  margin-bottom: 24px;
+  font-size: 20px;
+  color: #1890ff;
+}
+
+.dynamic-delete-button {
+  margin-left: 8px;
+  color: #ff4d4f;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dynamic-delete-button:hover {
+  color: #ff7875;
+}
+
+.ant-form-item {
+  margin-bottom: 16px;
+}
+
+.ant-table {
+  margin-bottom: 16px;
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+}
+
+.ant-btn {
+  height: 40px;
+  font-size: 16px;
+}
+
+.ant-btn-dashed {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.ant-btn-dashed:hover {
+  border-color: #40a9ff;
+  color: #40a9ff;
+}
