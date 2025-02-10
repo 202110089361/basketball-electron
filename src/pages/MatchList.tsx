@@ -16,7 +16,7 @@ const MatchList: React.FC = () => {
 
   const loadMatches = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/matches');
+      const response = await axios.get('http://localhost:3000/matches');
       setMatches(response.data);
     } catch (error) {
       message.error('加载比赛列表失败');
@@ -25,10 +25,11 @@ const MatchList: React.FC = () => {
 
   const loadMatchPlayers = async (matchId: string) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/matches/${matchId}/players`);
-      setMatchPlayers(response.data);
+      const response = await axios.get(`http://localhost:3000/matches/${matchId}/players`);
+      return response.data;
     } catch (error) {
       message.error('加载球员列表失败');
+      return [];
     }
   };
 
@@ -38,51 +39,11 @@ const MatchList: React.FC = () => {
 
   const handleCreate = async (values: any) => {
     try {
-      const matchData = {
-        name: values.name,
-        date: values.date,
-        time: values.time,
-        location: values.location,
-        teamA: values.teamA,
-        teamB: values.teamB,
-        mainReferee: values.mainReferee,
-        assistantReferee: values.assistantReferee,
-        coachA: values.coachA,
-        coachB: values.coachB,
-        assistantCoachA: values.assistantCoachA,
-        assistantCoachB: values.assistantCoachB,
-        quarterLength: parseInt(values.quarterLength),
-        scores: {
-          firstHalf1: { teamA: 0, teamB: 0 },
-          firstHalf2: { teamA: 0, teamB: 0 },
-          secondHalf1: { teamA: 0, teamB: 0 },
-          secondHalf2: { teamA: 0, teamB: 0 }
-        },
-        teamFouls: {
-          teamA: {
-            firstHalf1: [],
-            firstHalf2: [],
-            secondHalf1: [],
-            secondHalf2: []
-          },
-          teamB: {
-            firstHalf1: [],
-            firstHalf2: [],
-            secondHalf1: [],
-            secondHalf2: []
-          }
-        },
-        scoreRecords: {
-          teamA: [],
-          teamB: []
-        }
-      };
-
-      await axios.post('http://localhost:3000/api/matches', matchData);
+      const response = await axios.post('http://localhost:3000/matches', values);
       message.success('创建比赛成功');
       setIsModalVisible(false);
       loadMatches();
-      form.resetFields();
+      return response.data;
     } catch (error) {
       message.error('创建比赛失败');
     }
@@ -90,7 +51,7 @@ const MatchList: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3000/api/matches/${id}`);
+      await axios.delete(`http://localhost:3000/matches/${id}`);
       message.success('删除比赛成功');
       loadMatches();
     } catch (error) {

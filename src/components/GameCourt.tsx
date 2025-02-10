@@ -148,24 +148,24 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
     loadPlayers();
   }, [matchId]);
 
+  // 初始化场上球员
+  const initializeActivePlayers = () => {
+    const storedActivePlayers = loadFromStorage('activePlayers', null);
+    if (storedActivePlayers) {
+      setActivePlayers(storedActivePlayers);
+      return;
+    }
+
+    const activeA = players
+      .filter(p => p.team === 'A' && p.isStarter)
+      .map(p => p.id);
+    const activeB = players
+      .filter(p => p.team === 'B' && p.isStarter)
+      .map(p => p.id);
+    setActivePlayers({ A: activeA, B: activeB });
+  };
+
   useEffect(() => {
-    // 初始化场上球员
-    const initializeActivePlayers = () => {
-      const storedActivePlayers = loadFromStorage('activePlayers', null);
-      if (storedActivePlayers) {
-        setActivePlayers(storedActivePlayers);
-        return;
-      }
-
-      const activeA = players
-        .filter(p => p.team === 'A' && p.isStarter)
-        .map(p => p.id);
-      const activeB = players
-        .filter(p => p.team === 'B' && p.isStarter)
-        .map(p => p.id);
-      setActivePlayers({ A: activeA, B: activeB });
-    };
-
     if (players.length > 0) {
       initializeActivePlayers();
     }
@@ -174,9 +174,12 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
   useEffect(() => {
     const loadMatch = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/matches/${matchId}`);
+        console.log('正在加载比赛信息...');
+        const response = await axios.get(`/matches/${matchId}`);
+        console.log('比赛信息加载成功:', response.data);
         setMatch(response.data);
       } catch (error) {
+        console.error('加载比赛信息失败:', error);
         message.error('加载比赛信息失败');
       }
     };
@@ -185,10 +188,19 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
 
   const loadPlayers = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/matches/${matchId}/players`);
-      setPlayers(response.data);
-    } catch (error) {
-      message.error('加载球员列表失败');
+      console.log('正在加载球员数据...');
+      const response = await axios.get(`/matches/${matchId}/players`);
+      console.log('球员数据加载成功:', response.data);
+      if (Array.isArray(response.data)) {
+        setPlayers(response.data);
+        initializeActivePlayers();
+      } else {
+        console.error('球员数据格式错误:', response.data);
+        message.error('球员数据格式错误');
+      }
+    } catch (error: any) {
+      console.error('加载球员失败:', error);
+      message.error('加载球员失败: ' + (error.response?.data?.message || error.message));
     }
   };
 
