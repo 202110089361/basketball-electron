@@ -1,0 +1,50 @@
+[
+  {
+    "id": "b9ebe30c-4bfa-44f0-8b71-41eaebf90c06",
+    "name": "季前赛",
+    "date": "2025-02-07",
+    "time": "14:10",
+    "location": "C7",
+    "teamA": "湖人",
+    "teamB": "篮网",
+    "mainReferee": "梁杰睿",
+    "coachA": "冯导",
+    "quarterLength": 12,
+    "scores": {
+      "firstHalf1": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "firstHalf2": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "secondHalf1": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "secondHalf2": {
+        "teamA": 0,
+        "teamB": 0
+      }
+    },
+    "teamFouls": {
+      "teamA": {
+        "firstHalf1": [],
+        "firstHalf2": [],
+        "secondHalf1": [],
+        "secondHalf2": []
+      },
+      "teamB": {
+        "firstHalf1": [],
+        "firstHalf2": [],
+        "secondHalf1": [],
+        "secondHalf2": []
+      }
+    },
+    "scoreRecords": {
+      "teamA": [],
+      "teamB": []
+    }
+  }
+]

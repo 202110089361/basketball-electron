@@ -1,0 +1,47 @@
+[
+  {
+    "id": "deb523a7-ecdb-41d2-af25-e1890c35de6d",
+    "matchId": "b9ebe30c-4bfa-44f0-8b71-41eaebf90c06",
+    "team": "A",
+    "number": "1",
+    "name": "1",
+    "isStarter": true,
+    "updatedAt": "2025-02-10T06:20:54.354Z"
+  },
+  {
+    "id": "baf24199-e221-425e-a593-1c628306d60a",
+    "matchId": "b9ebe30c-4bfa-44f0-8b71-41eaebf90c06",
+    "team": "A",
+    "number": "2",
+    "name": "2",
+    "isStarter": true,
+    "updatedAt": "2025-02-10T06:20:58.957Z"
+  },
+  {
+    "id": "ea054c9a-4546-4db1-8ffd-d5209b1854b5",
+    "matchId": "b9ebe30c-4bfa-44f0-8b71-41eaebf90c06",
+    "team": "A",
+    "number": "3",
+    "name": "3",
+    "isStarter": true,
+    "updatedAt": "2025-02-10T06:21:03.156Z"
+  },
+  {
+    "id": "997eb8e8-0b48-4e6e-90bc-5f00e73b3d15",
+    "matchId": "b9ebe30c-4bfa-44f0-8b71-41eaebf90c06",
+    "team": "B",
+    "number": "1",
+    "name": "1",
+    "isStarter": true,
+    "updatedAt": "2025-02-10T06:35:51.451Z"
+  },
+  {
+    "id": "a9b509da-6736-46c0-aa72-cd1b7a1bc4a8",
+    "matchId": "b9ebe30c-4bfa-44f0-8b71-41eaebf90c06",
+    "team": "B",
+    "number": "2",
+    "name": "2",
+    "isStarter": true,
+    "updatedAt": "2025-02-10T06:35:51.839Z"
+  }
+]

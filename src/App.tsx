@@ -13,7 +13,7 @@ const App: React.FC = () => {
     <Router>
       <Layout className="layout" style={{ minHeight: '100vh' }}>
         <Header>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="horizontal">
             <Menu.Item key="1">
               <Link to="/">比赛列表</Link>
             </Menu.Item>
