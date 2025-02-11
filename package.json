@@ -2,6 +2,10 @@
   "name": "basketball-electron",
   "version": "1.0.0",
   "description": "篮球比赛记录工具桌面版",
+  "author": {
+    "name": "basketball-team",
+    "email": "basketball@example.com"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
