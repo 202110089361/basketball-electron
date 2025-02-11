@@ -14,7 +14,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "electron:dev": "concurrently \"npm run dev\" \"npm run backend:dev\" \"electron .\"",
-    "electron:build": "npm run build && electron-builder",
+    "electron:build": "npm run build && electron-builder --publish never",
     "electron:package": "electron-builder",
     "backend:dev": "tsc -p backend/tsconfig.json --watch",
     "backend:build": "tsc -p backend/tsconfig.json"
@@ -28,7 +28,9 @@
     "publish": {
       "provider": "github",
       "owner": "202110089361",
-      "repo": "basketball-ts"
+      "repo": "basketball-ts",
+      "private": false,
+      "releaseType": "draft"
     },
     "win": {
       "target": [
