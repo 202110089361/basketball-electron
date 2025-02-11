@@ -46,5 +46,57 @@
       "teamA": [],
       "teamB": []
     }
+  },
+  {
+    "id": "09c08b78-bbc5-42c8-894e-347beb8fa2ec",
+    "name": "11",
+    "date": "2025-01-31",
+    "time": "18:12",
+    "location": "111",
+    "teamA": "1111",
+    "teamB": "2222",
+    "mainReferee": "111111",
+    "assistantReferee": "22222",
+    "coachA": "111111",
+    "coachB": "1111",
+    "assistantCoachA": "22222",
+    "assistantCoachB": "222222",
+    "quarterLength": 10,
+    "scores": {
+      "firstHalf1": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "firstHalf2": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "secondHalf1": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "secondHalf2": {
+        "teamA": 0,
+        "teamB": 0
+      }
+    },
+    "teamFouls": {
+      "teamA": {
+        "firstHalf1": [],
+        "firstHalf2": [],
+        "secondHalf1": [],
+        "secondHalf2": []
+      },
+      "teamB": {
+        "firstHalf1": [],
+        "firstHalf2": [],
+        "secondHalf1": [],
+        "secondHalf2": []
+      }
+    },
+    "scoreRecords": {
+      "teamA": [],
+      "teamB": []
+    }
   }
 ]

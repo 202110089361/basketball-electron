@@ -213,7 +213,7 @@ const MatchList: React.FC = () => {
         ]}
       >
         {currentMatch && (
-          <MatchScoreSheet match={currentMatch} players={matchPlayers} />
+          <MatchScoreSheet match={currentMatch} players={matchPlayers} events={[]} />
         )}
       </Modal>
     </div>

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { Match, GameInfo } from '../types/match';
 
-const API_URL = 'http://localhost:3000/api/matches';
+// 根据环境设置不同的 baseURL
+const isDev = process.env.NODE_ENV === 'development';
+const API_URL = isDev ? '/api/matches' : 'http://localhost:3000/matches';
 
 export const matchService = {
   // 获取所有比赛
