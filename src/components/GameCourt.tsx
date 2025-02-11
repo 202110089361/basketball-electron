@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Space, Typography, Table, Select, message, Modal, Input, Form, Tabs } from 'antd';
 import { PlusOutlined, MinusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useTimer } from '../hooks/useTimer';
-import axios from 'axios';
-import { Match, Player, GameEvent, TeamScore, Quarter, EventMarker } from '../types';
+// 如果需要使用 axios，取消下面的注释
+// import axios from 'axios';
+import type { Match, Player, GameEvent, TeamScore, Quarter, EventMarker } from '../types';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -193,6 +194,9 @@ const GameCourt: React.FC<GameCourtProps> = ({
       setTeamB(prev => ({ ...prev, points: prev.points + points }));
     }
     setClickPosition(null);
+
+    // 调用 onEvent 回调
+    onEvent(newEvent);
   };
 
   const addFreeThrowEvent = async (team: 'A' | 'B') => {
@@ -257,6 +261,9 @@ const GameCourt: React.FC<GameCourtProps> = ({
         } else {
           setTeamB(prev => ({ ...prev, points: prev.points + made }));
         }
+
+        // 调用 onEvent 回调
+        onEvent(newEvent);
       }
     });
   };
@@ -372,8 +379,8 @@ const GameCourt: React.FC<GameCourtProps> = ({
         break;
     }
 
-    const newEvent: GameEvent = {
-      id: eventId,
+    const event: GameEvent = {
+      id: Date.now(),
       time,
       type,
       team,
@@ -383,17 +390,20 @@ const GameCourt: React.FC<GameCourtProps> = ({
       quarter: getCurrentQuarter()
     };
 
+    // 调用 onEvent 回调
+    onEvent(event);
+
     if (position) {
       setMarkers(prev => [...prev, {
         x: position.x,
         y: position.y,
         team,
         type,
-        id: eventId
+        id: event.id
       }]);
     }
 
-    setEvents((prev: GameEvent[]) => [newEvent, ...prev]);
+    setEvents((prev: GameEvent[]) => [event, ...prev]);
     setEventId((prev: number) => prev + 1);
     setClickPosition(null);
   };
@@ -581,6 +591,9 @@ const GameCourt: React.FC<GameCourtProps> = ({
     // 重置换人数据
     setSubstitutionData({ team: 'A', inPlayer: '', outPlayer: '' });
     setIsSubstitutionModalVisible(false);
+
+    // 调用 onEvent 回调
+    onEvent(newEvent);
   };
 
   const handleSubstitutionConfirm = () => {
@@ -636,6 +649,16 @@ const GameCourt: React.FC<GameCourtProps> = ({
       </div>
     );
   };
+
+  // 确保在组件中使用这些 props
+  useEffect(() => {
+    // 示例：当时间更新时调用 onTimeUpdate
+    const timer = setInterval(() => {
+      onTimeUpdate(Date.now());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [onTimeUpdate]);
 
   return (
     <div style={{ padding: 20 }}>

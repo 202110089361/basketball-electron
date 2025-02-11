@@ -3,14 +3,13 @@ import { Table, Button, Modal, Form, Input, Space, message, Popconfirm } from 'a
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MatchScoreSheet from '../components/MatchScoreSheet';
-import { Match, Player } from '../types';
+import { Match } from '../types';
 
 const MatchList: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [isViewModalVisible, setIsViewModalVisible] = useState(false);
   const [currentMatch, setCurrentMatch] = useState<Match | null>(null);
-  const [matchPlayers, setMatchPlayers] = useState<Player[]>([]);
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -41,7 +40,7 @@ const MatchList: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:3000/matches', values);
       message.success('创建比赛成功');
-      setIsModalVisible(false);
+      setModalVisible(false);
       loadMatches();
       return response.data;
     } catch (error) {
@@ -99,7 +98,7 @@ const MatchList: React.FC = () => {
     <div style={{ padding: 24 }}>
       <Button
         type="primary"
-        onClick={() => setIsModalVisible(true)}
+        onClick={() => setModalVisible(true)}
         style={{ marginBottom: 16 }}
       >
         新建比赛
@@ -109,9 +108,9 @@ const MatchList: React.FC = () => {
 
       <Modal
         title="新建比赛"
-        open={isModalVisible}
+        open={modalVisible}
         onOk={() => form.submit()}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => setModalVisible(false)}
       >
         <Form form={form} onFinish={handleCreate}>
           <Form.Item
@@ -213,7 +212,7 @@ const MatchList: React.FC = () => {
         ]}
       >
         {currentMatch && (
-          <MatchScoreSheet match={currentMatch} players={matchPlayers} events={[]} />
+          <MatchScoreSheet match={currentMatch} players={[]} events={[]} />
         )}
       </Modal>
     </div>

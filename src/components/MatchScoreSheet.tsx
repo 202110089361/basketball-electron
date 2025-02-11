@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { Button, message } from 'antd';
-import type { Match, Player, GameEvent } from '../types';
+import type { Match, GameEvent } from '@/types';
 import { drawScoreSheetTemplate } from '../utils/scoreSheetTemplate';
 
 interface Props {
   match: Match;
-  players: Player[];
+  players: any[]; // 修改为具体类型
   events: GameEvent[];
 }
 
@@ -86,7 +86,7 @@ const MatchScoreSheet: React.FC<Props> = ({ match, players, events }) => {
     fillText(match.assistantReferee, 1710, boxStartY + lineSpacing * 2.25); // 副裁判
 
     // 填充球员信息
-    const fillPlayerTable = (teamPlayers: Player[], startY: number) => {
+    const fillPlayerTable = (teamPlayers: any[], startY: number) => {
       teamPlayers.forEach((player, index) => {
         const y = startY + 110 + (index + 1) * 42; // 调整起始位置和行高
         ctx.textAlign = 'left';
