@@ -5,7 +5,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: process.env.GITHUB_PAGES === 'true' ? '/basketball-ts/' : './',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
