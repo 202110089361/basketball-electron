@@ -25,6 +25,11 @@
     "directories": {
       "output": "dist"
     },
+    "publish": {
+      "provider": "github",
+      "owner": "202110089361",
+      "repo": "basketball-ts"
+    },
     "win": {
       "target": [
         "nsis"
