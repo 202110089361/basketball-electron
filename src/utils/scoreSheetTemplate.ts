@@ -1,4 +1,13 @@
 export const drawScoreSheetTemplate = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+  // const margin = 20;
+  // const usableWidth = width - (margin * 2);
+
+  // 使用 usableWidth 进行计算，删除未使用的变量
+
+  // 使用 totalWidth 进行计算
+  // const columnWidth = usableWidth / 4;
+  // const maxWidth = width - margin * 2;
+
   // 设置基本样式
   ctx.strokeStyle = '#000000';
   ctx.lineWidth = 1;
@@ -248,7 +257,7 @@ export const drawScoreSheetTemplate = (ctx: CanvasRenderingContext2D, width: num
 
     // 计算每列的总宽度
     const colWidth = cellWidth * 4; // 每列4个格子的总宽度
-    const totalWidth = (colWidth + 40) * colCount; // 总宽度，适当增加列间距
+    // const totalWidth = (colWidth + 40) * colCount; // 总宽度，适当增加列间距
 
     // 绘制表格
     for (let col = 0; col < colCount; col++) {

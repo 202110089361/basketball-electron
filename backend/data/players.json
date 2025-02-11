@@ -43,5 +43,14 @@
     "name": "2",
     "isStarter": true,
     "updatedAt": "2025-02-10T06:35:51.839Z"
+  },
+  {
+    "id": "534b2a23-45cd-493f-9c7f-ef465052cfa2",
+    "matchId": "b9ebe30c-4bfa-44f0-8b71-41eaebf90c06",
+    "team": "B",
+    "number": "4",
+    "name": "4",
+    "isStarter": true,
+    "updatedAt": "2025-02-11T08:04:04.081Z"
   }
 ]
