@@ -28,7 +28,7 @@
     "publish": {
       "provider": "github",
       "owner": "202110089361",
-      "repo": "basketball-ts",
+      "repo": "basketball-electron",
       "private": false,
       "releaseType": "draft"
     },
