@@ -3,55 +3,16 @@ import { Row, Col, Button, Space, Typography, Table, Select, message, Modal, Inp
 import { PlusOutlined, MinusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useTimer } from '../hooks/useTimer';
 import axios from 'axios';
+import { Match, Player, GameEvent, TeamScore, Quarter, EventMarker } from '../types';
 
 const { Title } = Typography;
 const { Option } = Select;
 
-interface TeamScore {
-  points: number;
-  fouls: number;
-  timeouts: number;
-}
-
-interface Quarter {
-  id: number;
-  name: string;
-  isActive: boolean;
-  isCompleted: boolean;
-}
-
-interface Player {
-  id: string;
-  name: string;
-  number: string;
-  team: 'A' | 'B';
-  isStarter?: boolean;
-}
-
-interface GameEvent {
-  id: number;
-  time: string;
-  type: string;
-  team: 'A' | 'B';
-  player: string;
-  points?: number;
-  attempts?: number;
-  made?: number;
-  position?: { x: number; y: number };
-  description?: string;
-  quarter?: number;
-}
-
-interface EventMarker {
-  x: number;
-  y: number;
-  team: 'A' | 'B';
-  type: string;
-  id: number;
-}
-
 interface GameCourtProps {
-  matchId: string;
+  match: Match;
+  players: Player[];
+  onEvent: (event: GameEvent) => void;
+  onTimeUpdate: (time: number) => void;
 }
 
 interface SubstitutionData {
@@ -60,16 +21,21 @@ interface SubstitutionData {
   outPlayer: string;
 }
 
-const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
+const GameCourt: React.FC<GameCourtProps> = ({
+  match,
+  players,
+  onEvent,
+  onTimeUpdate
+}) => {
   // 从 localStorage 加载数据或使用初始值
   const loadFromStorage = (key: string, defaultValue: any) => {
-    const stored = localStorage.getItem(`match_${matchId}_${key}`);
+    const stored = localStorage.getItem(`match_${match.teamA}_${key}`);
     return stored ? JSON.parse(stored) : defaultValue;
   };
 
   // 保存数据到 localStorage
   const saveToStorage = (key: string, value: any) => {
-    localStorage.setItem(`match_${matchId}_${key}`, JSON.stringify(value));
+    localStorage.setItem(`match_${match.teamA}_${key}`, JSON.stringify(value));
   };
 
   const { time, rawTime, isRunning, start, pause, reset } = useTimer(loadFromStorage('rawTime', 0));
@@ -85,7 +51,6 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
   const [eventId, setEventId] = useState(() =>
     loadFromStorage('eventId', 1)
   );
-  const [players, setPlayers] = useState<Player[]>([]);
   const [selectedPlayerA, setSelectedPlayerA] = useState<string>('');
   const [selectedPlayerB, setSelectedPlayerB] = useState<string>('');
   const [clickPosition, setClickPosition] = useState<{ x: number; y: number } | null>(null);
@@ -108,45 +73,44 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
     inPlayer: '',
     outPlayer: ''
   });
-  const [match, setMatch] = useState<{ teamA: string; teamB: string } | null>(null);
 
   // 使用 useEffect 监听数据变化并保存
   useEffect(() => {
     saveToStorage('teamA', teamA);
-  }, [teamA, matchId]);
+  }, [teamA, match.teamA]);
 
   useEffect(() => {
     saveToStorage('teamB', teamB);
-  }, [teamB, matchId]);
+  }, [teamB, match.teamA]);
 
   useEffect(() => {
     saveToStorage('events', events);
-  }, [events, matchId]);
+  }, [events, match.teamA]);
 
   useEffect(() => {
     saveToStorage('eventId', eventId);
-  }, [eventId, matchId]);
+  }, [eventId, match.teamA]);
 
   useEffect(() => {
     saveToStorage('markers', markers);
-  }, [markers, matchId]);
+  }, [markers, match.teamA]);
 
   useEffect(() => {
     saveToStorage('time', time);
     saveToStorage('rawTime', rawTime);
-  }, [time, rawTime, matchId]);
+  }, [time, rawTime, match.teamA]);
 
   useEffect(() => {
     saveToStorage('quarters', quarters);
-  }, [quarters, matchId]);
+  }, [quarters, match.teamA]);
 
   useEffect(() => {
     saveToStorage('activePlayers', activePlayers);
-  }, [activePlayers, matchId]);
+  }, [activePlayers, match.teamA]);
 
   useEffect(() => {
-    loadPlayers();
-  }, [matchId]);
+    initializeActivePlayers();
+  }, [players]);
 
   // 初始化场上球员
   const initializeActivePlayers = () => {
@@ -163,45 +127,6 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
       .filter(p => p.team === 'B' && p.isStarter)
       .map(p => p.id);
     setActivePlayers({ A: activeA, B: activeB });
-  };
-
-  useEffect(() => {
-    if (players.length > 0) {
-      initializeActivePlayers();
-    }
-  }, [players]);
-
-  useEffect(() => {
-    const loadMatch = async () => {
-      try {
-        console.log('正在加载比赛信息...');
-        const response = await axios.get(`/matches/${matchId}`);
-        console.log('比赛信息加载成功:', response.data);
-        setMatch(response.data);
-      } catch (error) {
-        console.error('加载比赛信息失败:', error);
-        message.error('加载比赛信息失败');
-      }
-    };
-    loadMatch();
-  }, [matchId]);
-
-  const loadPlayers = async () => {
-    try {
-      console.log('正在加载球员数据...');
-      const response = await axios.get(`/matches/${matchId}/players`);
-      console.log('球员数据加载成功:', response.data);
-      if (Array.isArray(response.data)) {
-        setPlayers(response.data);
-        initializeActivePlayers();
-      } else {
-        console.error('球员数据格式错误:', response.data);
-        message.error('球员数据格式错误');
-      }
-    } catch (error: any) {
-      console.error('加载球员失败:', error);
-      message.error('加载球员失败: ' + (error.response?.data?.message || error.message));
-    }
   };
 
   const handleQuarterAction = (quarterId: number, action: 'start' | 'complete') => {
@@ -599,13 +524,13 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
   const resetAll = () => {
     if (window.confirm('确定要重置所有比赛数据吗？')) {
       // 清除所有相关的 localStorage 数据
-      localStorage.removeItem(`match_${matchId}_teamA`);
-      localStorage.removeItem(`match_${matchId}_teamB`);
-      localStorage.removeItem(`match_${matchId}_events`);
-      localStorage.removeItem(`match_${matchId}_eventId`);
-      localStorage.removeItem(`match_${matchId}_markers`);
-      localStorage.removeItem(`match_${matchId}_time`);
-      localStorage.removeItem(`match_${matchId}_activePlayers`);
+      localStorage.removeItem(`match_${match.teamA}_teamA`);
+      localStorage.removeItem(`match_${match.teamA}_teamB`);
+      localStorage.removeItem(`match_${match.teamA}_events`);
+      localStorage.removeItem(`match_${match.teamA}_eventId`);
+      localStorage.removeItem(`match_${match.teamA}_markers`);
+      localStorage.removeItem(`match_${match.teamA}_time`);
+      localStorage.removeItem(`match_${match.teamA}_activePlayers`);
 
       // 重置所有状态
       setTeamA({ points: 0, fouls: 0, timeouts: 0 });
@@ -755,7 +680,7 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
 
       <Row justify="space-between" align="middle">
         <Col span={8}>
-          <Title level={2}>{match?.teamA || 'A队'}</Title>
+          <Title level={2}>{match.teamA || 'A队'}</Title>
           <Space direction="vertical" size="large" style={{ width: '100%' }}>
             <div style={{ textAlign: 'center' }}>
               <Title level={1}>{teamA.points}</Title>
@@ -855,7 +780,7 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
         </Col>
 
         <Col span={8} style={{ textAlign: 'right' }}>
-          <Title level={2}>{match?.teamB || 'B队'}</Title>
+          <Title level={2}>{match.teamB || 'B队'}</Title>
           <Space direction="vertical" size="large" style={{ width: '100%', alignItems: 'flex-end' }}>
             <div style={{ textAlign: 'center' }}>
               <Title level={1}>{teamB.points}</Title>
@@ -1139,12 +1064,12 @@ const GameCourt: React.FC<GameCourtProps> = ({ matchId }) => {
           items={[
             {
               key: 'A',
-              label: match?.teamA || 'A队',
+              label: match.teamA || 'A队',
               children: renderPlayerSelect('A')
             },
             {
               key: 'B',
-              label: match?.teamB || 'B队',
+              label: match.teamB || 'B队',
               children: renderPlayerSelect('B')
             }
           ]}
