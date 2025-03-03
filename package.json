@@ -18,8 +18,8 @@
     "electron:package": "electron-builder",
     "backend:dev": "tsc -p backend/tsconfig.json --watch",
     "backend:build": "tsc -p backend/tsconfig.json",
-    "web": "vite",
-    "electron": "electron .",
+    "web": "concurrently \"npm run backend:dev\" \"vite\"",
+    "electron": "concurrently \"npm run backend:dev\" \"electron .\"",
     "start:all": "concurrently \"npm run web\" \"npm run electron\""
   },
   "build": {
