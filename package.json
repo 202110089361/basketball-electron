@@ -17,7 +17,10 @@
     "electron:build": "npm run build && electron-builder --publish never",
     "electron:package": "electron-builder",
     "backend:dev": "tsc -p backend/tsconfig.json --watch",
-    "backend:build": "tsc -p backend/tsconfig.json"
+    "backend:build": "tsc -p backend/tsconfig.json",
+    "web": "vite",
+    "electron": "electron .",
+    "start:all": "concurrently \"npm run web\" \"npm run electron\""
   },
   "build": {
     "appId": "com.basketball.recorder",
@@ -69,7 +72,7 @@
     "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
-    "electron": "^28.2.3",
+    "electron": "^28.3.3",
     "electron-builder": "^24.9.1",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",

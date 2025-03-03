@@ -11,6 +11,8 @@ dist/
 build/
 dist-ssr
 *.local
+release/
+out/
 
 # 编辑器目录
 .vscode/*
@@ -41,3 +43,8 @@ lerna-debug.log*
 # 系统文件
 .DS_Store
 Thumbs.db
+
+# Electron 特定
+.electron-builder.env
+electron-builder.env
+/release
