@@ -47,7 +47,7 @@ const matchRoutes = require('./backend/src/routes/matchRoutes').default;
 const playerRoutes = require('./backend/src/routes/playerRoutes').default;
 
 expressApp.use('/matches', matchRoutes);
-expressApp.use('/matches', playerRoutes);
+expressApp.use('/players', playerRoutes);
 
 const server = expressApp.listen(3000, () => {
   console.log('Express server running on port 3000');

@@ -28,7 +28,7 @@ const MatchPlayers: React.FC = () => {
 
   const loadMatch = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/matches/${matchId}`);
+      const response = await axios.get(`/matches/${matchId}`);
       setMatch(response.data);
     } catch (error) {
       message.error('加载比赛信息失败');
@@ -37,7 +37,7 @@ const MatchPlayers: React.FC = () => {
 
   const loadPlayers = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/matches/${matchId}/players`);
+      const response = await axios.get(`/matches/${matchId}/players`);
       setPlayers(response.data);
     } catch (error) {
       message.error('加载球员列表失败');
@@ -53,7 +53,7 @@ const MatchPlayers: React.FC = () => {
 
   const handleAddPlayer = async (values: any) => {
     try {
-      await axios.post(`http://localhost:3000/matches/${matchId}/players`, {
+      await axios.post(`/matches/${matchId}/players`, {
         ...values,
         isStarter: false
       });
@@ -68,7 +68,7 @@ const MatchPlayers: React.FC = () => {
 
   const handleDeletePlayer = async (playerId: string) => {
     try {
-      await axios.delete(`http://localhost:3000/matches/${matchId}/players/${playerId}`);
+      await axios.delete(`/matches/${matchId}/players/${playerId}`);
       message.success('删除球员成功');
       loadPlayers();
     } catch (error) {
@@ -85,7 +85,7 @@ const MatchPlayers: React.FC = () => {
     }
 
     try {
-      await axios.patch(`http://localhost:3000/matches/${matchId}/players/${playerId}`, {
+      await axios.patch(`/matches/${matchId}/players/${playerId}`, {
         isStarter
       });
       message.success(`${isStarter ? '设置' : '取消'}首发成功`);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Player, CreatePlayerDto, UpdatePlayerDto } from '../types/player';
 
-const API_URL = 'http://localhost:3000/players';
+const API_URL = '/api/players';
 
 export const playerService = {
   // 获取所有球员

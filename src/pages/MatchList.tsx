@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MatchScoreSheet from '../components/MatchScoreSheet';
 import { Match } from '../types';
+import { matchService } from '../services/matchService';
 
 const MatchList: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -15,8 +16,25 @@ const MatchList: React.FC = () => {
 
   const loadMatches = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/matches');
-      setMatches(response.data);
+      const response = await matchService.getMatches();
+      // 确保返回的数据符合Match类型定义
+      const matchData = response.map((match: any) => ({
+        id: match.id,
+        name: match.name,
+        date: match.date,
+        time: match.time,
+        location: match.location,
+        teamA: match.teamA,
+        teamB: match.teamB,
+        mainReferee: match.mainReferee,
+        assistantReferee: match.assistantReferee,
+        coachA: match.coachA,
+        coachB: match.coachB,
+        assistantCoachA: match.assistantCoachA,
+        assistantCoachB: match.assistantCoachB,
+        quarterLength: match.quarterLength
+      }));
+      setMatches(matchData);
     } catch (error) {
       message.error('加载比赛列表失败');
     }
@@ -24,7 +42,7 @@ const MatchList: React.FC = () => {
 
   const loadMatchPlayers = async (matchId: string) => {
     try {
-      const response = await axios.get(`http://localhost:3000/matches/${matchId}/players`);
+      const response = await axios.get(`/api/matches/${matchId}/players`);
       return response.data;
     } catch (error) {
       message.error('加载球员列表失败');
@@ -38,11 +56,11 @@ const MatchList: React.FC = () => {
 
   const handleCreate = async (values: any) => {
     try {
-      const response = await axios.post('http://localhost:3000/matches', values);
+      const response = await matchService.createMatch(values);
       message.success('创建比赛成功');
       setModalVisible(false);
       loadMatches();
-      return response.data;
+      return response;
     } catch (error) {
       message.error('创建比赛失败');
     }
@@ -50,7 +68,7 @@ const MatchList: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3000/matches/${id}`);
+      await axios.delete(`/api/matches/${id}`);
       message.success('删除比赛成功');
       loadMatches();
     } catch (error) {
