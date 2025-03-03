@@ -30,7 +30,7 @@ const GameRecorder: React.FC = () => {
     try {
       setLoading(true);
       console.log('正在发送请求到:', `/matches/${matchId}`);
-      const response = await axios.get(`/matches/${matchId}`);
+      const response = await axios.get(`/api/matches/${matchId}`);
       console.log('收到比赛数据响应:', response.data);
 
       if (!response.data) {
@@ -53,7 +53,7 @@ const GameRecorder: React.FC = () => {
   const loadPlayers = async () => {
     try {
       console.log('正在加载球员信息...');
-      const response = await axios.get(`/matches/${matchId}/players`);
+      const response = await axios.get(`/api/matches/${matchId}/players`);
       console.log('收到球员数据响应:', response.data);
       setPlayers(response.data || []);
     } catch (error) {
@@ -66,7 +66,7 @@ const GameRecorder: React.FC = () => {
     setEvents(prevEvents => [...prevEvents, event]);
     // 保存事件到数据库
     try {
-      axios.post(`/matches/${matchId}/events`, event);
+      axios.post(`/api/matches/${matchId}/events`, event);
     } catch (error) {
       console.error('保存事件失败:', error);
       message.error('保存事件失败');
@@ -77,7 +77,7 @@ const GameRecorder: React.FC = () => {
     if (!match) return;
 
     try {
-      axios.patch(`/matches/${matchId}`, {
+      axios.patch(`/api/matches/${matchId}`, {
         currentTime: time
       });
     } catch (error) {

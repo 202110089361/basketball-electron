@@ -12,7 +12,7 @@ app.use(express.json());
 
 // 路由
 app.use('/matches', matchRoutes);
-app.use('/players', playerRoutes);
+app.use('/matches', playerRoutes);
 
 // 错误处理中间件
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

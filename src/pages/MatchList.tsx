@@ -42,7 +42,7 @@ const MatchList: React.FC = () => {
 
   const loadMatchPlayers = async (matchId: string) => {
     try {
-      const response = await axios.get(`/api/matches/${matchId}/players`);
+      const response = await axios.get(`/matches/${matchId}/players`);
       return response.data;
     } catch (error) {
       message.error('加载球员列表失败');
@@ -68,7 +68,7 @@ const MatchList: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`/api/matches/${id}`);
+      await axios.delete(`/matches/${id}`);
       message.success('删除比赛成功');
       loadMatches();
     } catch (error) {
