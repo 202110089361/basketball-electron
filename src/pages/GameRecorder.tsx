@@ -8,7 +8,7 @@ import { GameEvent, Match } from '@/types';
 
 // 根据环境设置不同的 baseURL
 const isDev = process.env.NODE_ENV === 'development';
-axios.defaults.baseURL = isDev ? '' : 'http://localhost:3000';
+axios.defaults.baseURL = isDev ? '' : process.env.VITE_API_URL || 'https://your-vercel-app.vercel.app';
 
 const GameRecorder: React.FC = () => {
   const { matchId } = useParams<{ matchId: string }>();
